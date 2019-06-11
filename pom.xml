@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.xiumelt</groupId>
+    <artifactId>myforum</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>myforum-dependencies</module>
+        <module>myforum-commons</module>
+        <module>myforum-domain</module>
+        <module>myforum-web-admin</module>
+        <module>myforum-web-ui</module>
+        <module>myforum-api</module>
+    </modules>
+</project>

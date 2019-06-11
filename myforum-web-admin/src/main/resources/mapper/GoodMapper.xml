@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiumelt.myforum.web.admin.dao.GoodDao">
+    <sql id="GoodColumns">
+        a.uid,
+        a.tid
+    </sql>
+    <select id="getUidByPid" resultType="Long">
+        SELECT
+        uid
+        FROM
+        tb_good
+        WHERE pid=#{pid}
+    </select>
+    <insert id="insert">
+        INSERT INTO tb_good (
+          uid,
+          pid
+        )
+        VALUES
+          (
+            #{param1},
+            #{param2}
+          )
+    </insert>
+    <delete id="deleGood">
+        DELETE FROM tb_good WHERE pid=#{pid}
+    </delete>
+
+
+</mapper>

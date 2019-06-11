@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiumelt.myforum.web.admin.dao.ReplyDao">
+    <sql id="ReplyColumns">
+        a.rid,
+        a.content,
+        a.pid,
+        a.uid,
+        a.replyTime
+    </sql>
+    <insert id="insert">
+         INSERT INTO tb_reply (
+          content,
+          pid,
+          uid,
+          replyTime
+        )
+        VALUES
+          (
+            #{content},
+            #{post.pid},
+            #{tbUser.uid},
+            #{replyTime}
+          )
+    </insert>
+    <select id="selectById" resultType="Reply">
+        SELECT
+        <include refid="ReplyColumns" />
+        FROM
+        tb_reply AS a
+        WHERE a.rid=#{rid}
+    </select>
+    <select id="listReply" resultType="Reply">
+        SELECT
+        <include refid="ReplyColumns" />
+        FROM
+        tb_reply AS a
+        WHERE a.pid=#{pid}
+    </select>
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(a.rid) FROM tb_reply AS a
+    </select>
+    <select id="getUidByRid" resultType="Long">
+        select uid from tb_reply where rid=#{rid}
+    </select>
+
+    <select id="getPidByRid" resultType="Long">
+        select pid from tb_reply where rid=#{rid}
+    </select>
+</mapper>

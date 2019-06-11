@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiumelt.myforum.web.admin.dao.TbUserDao">
+    <sql id="tbUserColumns">
+        a.uid,
+        a.username,
+        a.password,
+        a.email,
+        a.timeStart,
+        a.timeEnd,
+        a.role
+    </sql>
+    <select id="selectAll" resultType="TbUser">
+        SELECT
+        <include refid="tbUserColumns" />
+        FROM
+          tb_user AS a
+    </select>
+    <insert id="insert">
+        INSERT INTO tb_user (
+          username,
+          password,
+          email,
+          timeStart,
+          timeEnd
+        )
+        VALUES
+          (
+            #{username},
+            #{password},
+            #{email},
+            #{timeStart},
+            #{timeEnd}
+          )
+    </insert>
+    <delete id="delete">
+        DELETE FROM tb_user WHERE uid = #{uid}
+    </delete>
+    <select id="selectById" resultType="TbUser">
+        SELECT
+        <include refid="tbUserColumns" />
+        FROM
+          tb_user AS a
+        WHERE
+          a.uid = #{uid}
+    </select>
+    <update id="update">
+        UPDATE
+          tb_user
+        SET
+          username = #{username},
+          password = #{password},
+          email = #{email},
+          timeStart = #{timeStart},
+          timeEnd = #{timeEnd}
+        WHERE uid = #{uid}
+    </update>
+    <select id="selectByName" resultType="TbUser">
+        SELECT
+        <include refid="tbUserColumns" />
+        FROM
+          tb_user AS a
+        WHERE
+          a.username LIKE CONCAT ('%', #{username}, '%')
+    </select>
+    <select id="getByName" resultType="TbUser">
+        SELECT
+        <include refid="tbUserColumns" />
+        FROM
+          tb_user AS a
+        WHERE
+          a.username =#{username}
+    </select>
+    <update id="updatePostCount">
+        update tb_user set postCount = postCount+1 where uid=#{uid};
+    </update>
+
+    <delete id="deleteMulti">
+        DELETE FROM tb_user
+        WHERE uid IN
+        <foreach collection="array" open="(" close=")" separator="," item="uid">
+            #{uid}
+        </foreach>
+    </delete>
+
+    <select id="search" resultType="TbUser">
+        SELECT
+        <include refid="tbUserColumns" />
+        FROM
+          tb_user AS a
+        <where>
+            <if test="username!=null and username!=''">
+                AND a.username LIKE CONCAT('%',#{username},'%')
+            </if>
+            <if test="email!=null and email!=''">
+                AND a.email LIKE CONCAT('%',#{email},'%')
+            </if>
+
+        </where>
+
+    </select>
+</mapper>

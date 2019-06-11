@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiumelt.myforum.web.admin.dao.NoticeDao">
+    <sql id="NoticeColumns">
+        a.nid,
+        a.title,
+        a.content,
+        a.noTime,
+        a.alterTime
+    </sql>
+    <select id="selectAll" resultType="Notice">
+        SELECT
+        <include refid="NoticeColumns" />
+        FROM
+        tb_notice AS a
+        ORDER BY a.alterTime DESC
+    </select>
+    <select id="selectById" resultType="Notice">
+        SELECT
+        <include refid="NoticeColumns" />
+        FROM
+        tb_notice AS a
+        WHERE
+        a.nid = #{nid}
+    </select>
+
+</mapper>

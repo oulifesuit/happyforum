@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiumelt.myforum.web.admin.dao.PostDao">
+
+    <sql id="PostColumns">
+        a.pid,
+        a.title,
+        a.content,
+        a.postTime,
+        a.alterTime,
+        a.replyTime,
+        a.replyCount,
+        a.likeCount,
+        a.scanCount,
+        a.tid,
+        a.uid
+    </sql>
+    <select id="selectAll" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post AS a
+    </select>
+    <select id="selectByPid" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post  AS a
+        WHERE a.pid=#{pid}
+    </select>
+    <insert id="insert">
+         INSERT INTO tb_post (
+          title,
+          content,
+          postTime,
+          alterTime,
+          replyTime,
+          replyCount,
+          likeCount,
+          scanCount,
+          tid,
+          uid
+        )
+        VALUES
+          (
+            #{title},
+            #{content},
+            #{postTime},
+            #{alterTime},
+            #{replyTime},
+            #{replyCount},
+            #{likeCount},
+            #{scanCount},
+            #{topic.tid},
+            #{tbUser.uid}
+          )
+    </insert>
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(a.pid) FROM tb_post AS a
+    </select>
+
+
+    <select id="selectAllByTid" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post AS a
+        WHERE a.tid=#{param1}
+        ORDER BY a.postTime DESC
+    </select>
+
+    <select id="selectPostByTime" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post AS a
+        ORDER BY a.postTime DESC limit 5
+    </select>
+    <select id="selectPostByReplyTime" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post AS a
+        ORDER BY a.replyTime DESC limit 5
+    </select>
+
+    <select id="selectPostCount" resultType="Long">
+        select count(*) from tb_post
+    </select>
+
+    <update id="updateReplyCount">
+        update tb_post set replyCount = replyCount + 1 where pid = #{pid}
+    </update>
+
+    <update id="updateLikeCount">
+        update tb_post set likeCount = likeCount + 1 where pid = #{pid}
+    </update>
+
+    <update id="updateScanCount">
+        update tb_post set scanCount = scanCount + 1 where pid = #{pid}
+    </update>
+
+    <update id="updateReplyTime">
+        update tb_post set replyTime = date_format(now(),'%Y-%c-%d %H:%i:%s')
+        where pid=#{pid}
+    </update>
+
+    <select id="getUidByPid" resultType="Long">
+        select uid from tb_post where pid=#{pid}
+    </select>
+
+    <select id="getTidByPid" resultType="Long">
+        select tid from tb_post where pid=#{pid}
+    </select>
+
+    <select id="getTitleByPid" resultType="String">
+        select title from tb_post where pid=#{pid}
+    </select>
+
+    <select id="search" resultType="TbUser">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_user AS a
+        <where>
+            <if test="title!=null and title!=''">
+                AND a.title LIKE CONCAT('%',#{title},'%')
+            </if>
+            <if test="content!=null and content!=''">
+                AND a.content LIKE CONCAT('%',#{content},'%')
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="searchContent" resultType="Post">
+        SELECT
+        <include refid="PostColumns" />
+        FROM
+        tb_post AS a
+        WHERE
+        a.content LIKE CONCAT('%',#{param1},'%')
+    </select>
+
+    <delete id="dele">
+        DELETE FROM tb_post WHERE pid=#{pid}
+    </delete>
+</mapper>

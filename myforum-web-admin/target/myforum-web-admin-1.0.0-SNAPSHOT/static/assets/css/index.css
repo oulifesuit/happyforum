@@ -1,0 +1,46 @@
+.user-info-detail .detail-top > *, .user-info-detail .detail-bottom > * {
+    display: inline-block;
+}
+.user-info-avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.user-info-wrap {
+    padding-top: 20px;
+}
+
+.search-wrap {
+    padding-top: 100px;
+    padding-bottom:50px;
+}
+
+.five_new{
+    border: 2px solid blue;
+    margin:50px;
+}
+
+.plate-wrap{
+    border:2px solid green;
+}
+
+.plate{
+    padding-bottom: 30px;
+    border:2px solid blue;
+}
+
+.plate-title{
+    padding-left:20px;
+    color:lightskyblue;
+    font-weight: bolder;
+}
+
+.plate-small-title{
+    font-weight: bold;
+}
+
+.button-style{
+    padding:20px;
+}
+
+
